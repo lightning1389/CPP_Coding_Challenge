@@ -22,6 +22,7 @@ In order to build the project you just need to create the CMake environment:
 
 
 ```Cmake
+cd build
 cmake .. -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
 ```
 
