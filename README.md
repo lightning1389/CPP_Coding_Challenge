@@ -43,6 +43,7 @@ The BOSCH proxy has a problem to recurisvely checkout the googletest lib, if you
 Please navigate to lib and checkout the googletest lib: 
 
 ```bash
+cd lib
 git clone --recursive git@github.com:google/googletest.git
 ```
 
