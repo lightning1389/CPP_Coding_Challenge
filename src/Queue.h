@@ -6,20 +6,28 @@
 
 const int Zero = 0;
 
-
+/*
+ ***********************************************************************************************************************
+ * Class template Queue
+ ***********************************************************************************************************************
+ */
+/**
+ * Interface defined as described in the Coding challenge
+ */
 template<typename T>
 class Queue
 {
+private: 
 	std::condition_variable condition;
 	unsigned int capacity = 0;	// Max capacity
 	T *arr;
+	int i = 0; 
 	int head = 0, tail = 0;
 	int size = 0;	// actual size
-	int count = 0;	// 
+	int count = 0;	
 	Queue* queue_;
-	Queue() {};
+	Queue() {};	
 	std::mutex mtx;  // protects the Queue
-
 
 public:
 	void Push(T element);
@@ -31,7 +39,15 @@ public:
 	~Queue();
 };
 
-
+/*
+ ***********************************************************************************************************************
+ * Function template
+ ***********************************************************************************************************************
+ */
+/**
+ * User defined constructor
+ * creates a new queue and points to it via a Queue Pointer
+ */
 template <typename T>
 Queue <T>::Queue(int size)
 {
@@ -43,81 +59,99 @@ Queue <T>::Queue(int size)
 	queue_ = queue;
 }
 
+/**
+ * Push / Enqueue
+ * Push function - element can be a template defined type
+ */
 template<typename T>
 void Queue<T>::Push(T element)
 {
 	std::unique_lock<std::mutex> mlock(mtx);
+
 	// check if there is still enough space 
-	if (queue_->size == queue_->capacity)
+	while (queue_->size == queue_->capacity)
 	{
 		// FULL 
-			condition.wait(mlock);   // (4)		
-	}
-	else
-	{
-		queue_->tail = queue_->tail % queue_->capacity;
-		queue_->arr[queue_->tail] = element;
-		queue_->tail += 1; // nothing on tail now (as tail+1)
-		queue_->size += 1;
-		condition.notify_one();
+		condition.wait(mlock);   // (4)		
 	}
 
+
+	queue_->tail = queue_->tail % queue_->capacity;
+	queue_->arr[queue_->tail] = element;
+	queue_->tail += 1; // nothing on tail now (as tail+1)
+	queue_->size += 1;
+	mlock.unlock();
+	condition.notify_one();
+	
 }
 
-
+/**
+ * Pop/ Dequeue
+ * Pop function - Element returned can be a template defined type
+ */
 template<typename T>
 T Queue<T>::Pop()
 {
 	std::unique_lock<std::mutex> mlock(mtx);
-	T temp = queue_->arr[queue_->head]; 
-
 
 	// check if there are any elements 
-	if (queue_->size == Zero)
+	while (queue_->size == Zero)
 	{
 		// empty 
-			condition.wait(mlock);
-
+		condition.wait(mlock);
 	}
-	else
-	{
-		temp = queue_->arr[queue_->head]; 
-		queue_->arr[queue_->head] = 0 ; 
+	T temp;
+	temp = queue_->arr[queue_->head]; 
+	queue_->arr[queue_->head] = 0 ; 
 
-		queue_->head = queue_->head % queue_->capacity;
-		queue_->head += 1;
-		queue_->size -= 1;	// one slot free
-		condition.notify_one();
-
-	}
-
+	queue_->head = queue_->head % queue_->capacity;
+	queue_->head += 1;
+	queue_->size -= 1;	// one slot free
+	mlock.unlock();
+	condition.notify_one();
 	return temp;
 }
 
 
-
+/**
+ * User defined Destructor
+ * Free the memory
+ */
 template <typename T>
 Queue <T>::~Queue()
 {
-	free(queue_);
+	delete(queue_);
 }
 
-
-
+/**
+ * Count
+ * returns the max number of elements in the Queue == Capacity
+ */
 template<typename T>
-const int  Queue<T>::Count()	//is the max number reached
+const int  Queue<T>::Count()	
 {
 	return (queue_->capacity);
 }
 
 
-
+/**
+ * Size
+ * Returns the current size of used Queue spots
+ */
 template<typename T>
 const int  Queue<T>::Size()
 {
 	return (queue_->size);
 }
 
+
+/**
+ * Prints Queue
+ * DEBUG PURPOSE ONLY
+ * A simple queue function that prints out size, capacity and current Queue
+ * Be aware, that even the "deleted" queue spots will be printed
+ * 
+ */
 template<typename T>
 void Queue<T>::printfQueue()
 {
