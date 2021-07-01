@@ -53,7 +53,7 @@ Another point worth mentioning:
 ```CPP
   void push(T&& element)
 ```
-- the mutex locks costs a lot of runtimes and probably a single-threaded for each queue will be a better choice - after all a queue is a bottle-neck. 
+- the mutex locks costs a lot of runtimes and probably a single-thread for each queue will be a better choice - after all a queue is a bottle-neck. 
 
 
 ## License
