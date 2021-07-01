@@ -21,7 +21,8 @@ git clone --recursive https://github.com/lightning1389/CPP_Coding_Challenge.git
 In order to build the project you just need to create the CMake environment. Navigate to the folder and open a command window within the project
 
 ```Cmake
-mkdir build
+cd CPP_Coding_Challenge        # Navigate into project folder                      
+mkdir build                    # Create an empty build folder
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
 ```
