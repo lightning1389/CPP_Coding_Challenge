@@ -2,6 +2,9 @@
 # Description 
 Thank you very much for the interesting challenge - it was a pleasure and pain at the same time :)
 
+![](queue.gif)
+
+
 ## Prerequisite
 For the purpose of compilation, I have added the prerequisites in the following list: 
 
