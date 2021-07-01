@@ -37,9 +37,17 @@ make all
 ```
 voilà, the executables are located in build/src and build/tst, respectively.
 
+### Problem in Cmake build (OPTIONAL, Only in case of ERROR)
+
+The BOSCH proxy has a problem to recurisvely checkout the googletest lib, if you experience that problem most likely the "lib/googletest" folder is empty. 
+Please navigate to lib and checkout the googletest lib: 
+
+```bash
+git clone --recursive git@github.com:google/googletest.git
+```
+
 
 ## Known Issues
-There can only be one outstanding pop or push transaction.
 - Test cases can be more advanced
 - Initialization of datatypes, e.g. queue<int> 0 
 
