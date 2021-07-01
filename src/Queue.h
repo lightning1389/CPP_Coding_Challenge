@@ -3,6 +3,9 @@
 #include <iostream>
 #include <mutex>
 #include <condition_variable>
+#include "sleep.h"
+
+
 
 const int Zero = 0;
 
@@ -17,7 +20,6 @@ const int Zero = 0;
 template<typename T>
 class Queue
 {
-private: 
 	std::condition_variable condition;
 	unsigned int capacity = 0;	// Max capacity
 	T *arr;
@@ -36,7 +38,7 @@ public:
 	const int Size();	// Max number of elements
 	void printfQueue();
 	Queue(int size);
-	~Queue();
+	~Queue(){};
 };
 
 /*
@@ -80,6 +82,7 @@ void Queue<T>::Push(T element)
 	queue_->arr[queue_->tail] = element;
 	queue_->tail += 1; // nothing on tail now (as tail+1)
 	queue_->size += 1;
+	sleepcp(20); 
 	mlock.unlock();
 	condition.notify_one();
 	
@@ -107,6 +110,7 @@ T Queue<T>::Pop()
 	queue_->head = queue_->head % queue_->capacity;
 	queue_->head += 1;
 	queue_->size -= 1;	// one slot free
+	sleepcp(20); 
 	mlock.unlock();
 	condition.notify_one();
 	return temp;
@@ -117,11 +121,7 @@ T Queue<T>::Pop()
  * User defined Destructor
  * Free the memory
  */
-template <typename T>
-Queue <T>::~Queue()
-{
-	delete(queue_);
-}
+
 
 /**
  * Count
