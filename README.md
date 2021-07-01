@@ -49,8 +49,8 @@ There can only be one outstanding pop or push transaction.
 Performance-wise there are many points that are worth mentioning: 
 
 Through the circular array usage, the insertion and deletion /Push&Pop are linear: 
-- Push 0(1)
-- Push 0(1)
+- Push O(1)
+- Push O(1)
 
 Nevertheless, through the usage of mutex Locks, the time can be increased.
 Another point worth mentioning: 
