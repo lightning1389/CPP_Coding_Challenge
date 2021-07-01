@@ -40,6 +40,9 @@ voilà, the executables are located in build/src and build/tst, respectively.
 
 ## Known Issues
 There can only be one outstanding pop or push transaction.
+- Test cases can be more advanced
+- Initialization of datatypes, e.g. queue<int> 0 
+
 
 ## Performance
 
