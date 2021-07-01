@@ -2,10 +2,10 @@
 #include "Queue.h"
 #include <thread>
 #include "producerAndConsumer.h"
+#include <iostream>
 
 
-
-TEST(y, test1) {
+TEST(SimplePushPop, test1) {
     EXPECT_EQ (6,   6);  // 7 Push - 3 Pops = 4
 
     typedef Queue<int> QueueInts;
@@ -27,11 +27,24 @@ TEST(y, test1) {
 
 }
 
-TEST(x, test2) {
+TEST(Sanity_Test, test2) {
     // Sanity tests
     typedef Queue<int> QueueInts;
 	typedef Queue<float> QueueFloats;
     QueueInts queue(10000);	
     EXPECT_EQ (queue.Count(),   10000);
 
+}
+
+TEST(MultithreadedApplication, test2) {
+    // multi threaded application test
+    typedef Queue<int> QueueInts;
+	typedef Queue<float> QueueFloats;
+    QueueInts queue(10000);	
+    EXPECT_EQ (queue.Size(),   0); 
+    std::thread produce(produce<int>, std::ref(queue));
+	std::thread consume(consume<int>, std::ref(queue));
+    produce.join();
+	consume.join(); 	
+    EXPECT_EQ (queue.Size(),   5); 
 }
