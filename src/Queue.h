@@ -36,13 +36,11 @@ public:
     const int Count();  // Amount of elements stored now
     const int Size();   // Max number of elements
     void printfQueue();
-	Queue& operator=(const Queue& ){
+	Queue& operator=(const Queue& copy){	// copy and move assignment operator
 		swap(*this, copy);
    	 	return *this;
 	}; 
-	Queue(Queue const& other); // only same sized arrays
-	
-
+	Queue(Queue const& other); // copy constructor 
     Queue(int sizeofqueue);
     ~Queue();
 };
