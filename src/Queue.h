@@ -36,6 +36,13 @@ public:
     const int Count();  // Amount of elements stored now
     const int Size();   // Max number of elements
     void printfQueue();
+	Queue& operator=(const Queue& ){
+		swap(*this, copy);
+   	 	return *this;
+	}; 
+	Queue(Queue const& other); // only same sized arrays
+	
+
     Queue(int sizeofqueue);
     ~Queue();
 };
@@ -59,7 +66,23 @@ Queue <T>::Queue(int sizeofqueue)
     ,mtx{}
 {
 }
- 
+
+
+/**
+ * copy assignment 
+ * copies the input and puts it into another instance of queue
+ */
+template <typename T>
+Queue <T>::Queue(Queue const& other)
+    :capacity{other.capacity}
+    ,head{other.head}
+    ,size{other.size}
+    ,tail{other.tail}
+    ,arr{other.arr = arr}	
+    ,mtx{other.mtx}
+{
+}
+
 /**
  * Push / Enqueue
  * Push function - element can be a template defined type
