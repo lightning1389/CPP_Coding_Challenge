@@ -41,9 +41,9 @@ TEST(MultithreadedApplication, test2) {
 	typedef Queue<float> QueueFloats;
     QueueInts queue(10000);	
     EXPECT_EQ (queue.Size(),   0); 
-    std::thread produce(produce<int>, std::ref(queue));
-	std::thread consume(consume<int>, std::ref(queue));
-    produce.join();
-	consume.join(); 	
+    std::thread produce1(produce<int>, std::ref(queue));
+	std::thread consume1(consume<int>, std::ref(queue));
+    produce1.join();
+	consume1.join(); 	
     EXPECT_EQ (queue.Size(),   0); 
 }

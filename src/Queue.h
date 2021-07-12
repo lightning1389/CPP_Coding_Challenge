@@ -20,7 +20,7 @@ template<typename T>
 class Queue
 {
     std::condition_variable condition;
-    unsigned int capacity = 0;  // Max capacity
+    int capacity = 0;  // Max capacity
     T *arr;
     int i = 0; 
     int head = 0, tail = 0;
@@ -36,7 +36,7 @@ public:
     const int Count();  // Amount of elements stored now
     const int Size();   // Max number of elements
     void printfQueue();
-    Queue(int size);
+    Queue(int sizeofqueue);
     ~Queue(){};
 };
  
@@ -50,12 +50,12 @@ public:
  * creates a new queue and points to it via a Queue Pointer
  */
 template <typename T>
-Queue <T>::Queue(int size)
-    :capacity{size}
+Queue <T>::Queue(int sizeofqueue)
+    :capacity{sizeofqueue}
     ,head{0}
     ,size{0}
     ,tail{0}
-    ,arr{new T[size]}
+    ,arr{new T[sizeofqueue]}
     ,mtx{}
 {
 }
