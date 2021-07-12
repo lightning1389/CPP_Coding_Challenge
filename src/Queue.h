@@ -36,6 +36,7 @@ public:
 		swap(*this, copy);
    	 	return *this;
 	}; 
+	Queue(Queue&& other, int sizeofqueue) noexcept; // move constructor
 	Queue(Queue const& other); // copy constructor 
     Queue(int sizeofqueue);
     ~Queue();
@@ -74,6 +75,21 @@ Queue <T>::Queue(Queue const& other)
     ,tail{other.tail}
     ,m_arr{other.m_arr}	
     ,mtx{other.mtx}
+{
+}
+
+/** 
+ * Move constructor 
+ * 
+ */
+template <typename T>
+Queue <T>::Queue(Queue&& other, int sizeofqueue) noexcept // move constructor
+    :m_capacity{std::exchange(other.m_capacity, 0)}
+    ,m_head{std::exchange(other.m_head, 0)}
+    ,m_size{std::exchange(other.m_size, 0)}
+    ,tail{std::exchange(other.tail, 0)}
+    ,m_arr{std::exchange(other.m_arr, new T[sizeofqueue])}	
+    ,mtx{std::exchange(other.mtx)}
 {
 }
 
@@ -131,17 +147,6 @@ T Queue<T>::Pop()
     condition.notify_one();
     return temp;
 }
- 
-
-/**
- * User defined Destructor
- * Free the memory
- */
-template<typename T>
-Queue <T>::~Queue()
-{
-	delete[] m_arr; // use m_array delete to deallocate m_array
-}
 
  
 
@@ -186,4 +191,14 @@ void Queue<T>::printfQueue()
     std::cout << "size of queue " << m_size << std::endl;
 }
  
+
+/**
+ * User defined Destructor
+ * Free the memory
+ */
+template<typename T>
+Queue <T>::~Queue()
+{
+	delete[] m_arr; // use m_array delete to deallocate m_array
+}
 
