@@ -6,7 +6,6 @@
 
 
 
-const int Zero = 0;
 
 /*
  ***********************************************************************************************************************
@@ -25,6 +24,8 @@ class Queue
     int m_head = 0, tail = 0;
     int m_size = 0;   // actual m_size
     std::mutex mtx;  // protects the Queue
+	const int Zero = 0;
+
  
 public:
     void Push(T element);
