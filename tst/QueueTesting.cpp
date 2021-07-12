@@ -39,11 +39,17 @@ TEST(MultithreadedApplication, test2) {
     // multi threaded application test
     typedef Queue<int> QueueInts;
 	typedef Queue<float> QueueFloats;
-    QueueInts queue(10000);	
+    QueueInts queue(9);	
     EXPECT_EQ (queue.Size(),   0); 
     std::thread produce1(produce<int>, std::ref(queue));
 	std::thread consume1(consume<int>, std::ref(queue));
-    produce1.join();
-	consume1.join(); 	
+    std::thread produce2(produce<int>, std::ref(queue));
+	std::thread consume2(consume<int>, std::ref(queue));
+    // Multithreaded Application with produce pushing nearly twice as much as array size
+    produce1.join();    // Queue will be full!
+    produce2.join();    // multipile data being stalled
+	consume1.join(); 	// threads need to wait in order to work on the data
+	consume2.join(); 	
+
     EXPECT_EQ (queue.Size(),   0); 
 }
