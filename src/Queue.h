@@ -37,7 +37,7 @@ public:
     const int Size();   // Max number of elements
     void printfQueue();
     Queue(int sizeofqueue);
-    ~Queue(){};
+    ~Queue();
 };
  
 /*
@@ -120,6 +120,12 @@ T Queue<T>::Pop()
  * User defined Destructor
  * Free the memory
  */
+template<typename T>
+Queue <T>::~Queue()
+{
+	delete[] arr; // use array delete to deallocate array
+}
+
  
 
 /**
