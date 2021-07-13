@@ -19,27 +19,38 @@ template<typename T>
 class Queue
 {
     std::condition_variable condition;
-    int m_capacity = 0;  // Max m_capacity
+    int m_capacity{0};  // Max m_capacity
     T *m_arr;
-    int m_head = 0, tail = 0;
-    int m_size = 0;   // actual m_size
-    std::mutex mtx;  // protects the Queue
-	const int Zero = 0;
+    int m_head{0}; 
+    int tail{0};
+    int m_size{0};                                     // actual m_size
+    std::mutex mtx;                                   // protects the Queue
+	const int Zero{0};
  
 public:
     void Push(T element);
     T Pop();
-    const int Count();  // Amount of elements stored now
-    const int Size();   // Max number of elements
+    const int Count();                               // Amount of elements stored now
+    const int Size();                                // Max number of elements
     void printfQueue();
-	Queue& operator=(const Queue& copy){	// copy and move assignment operator
+	
+    Queue& operator=(Queue& copy) {	        // copy assignment operator
+	    *this = copy;
+        *this.m_size = copy.m_size; 
+        *this.tail = copy.tail; 
+        *this.m_head = copy.m_head; 
+        *this.m_capacity = copy.m_capacity; 
+   	 	return *this;
+	}; 
+	Queue& operator=(Queue&& copy){	        // move assignment operator
 		swap(*this, copy);
    	 	return *this;
 	}; 
-	Queue(Queue&& other, int sizeofqueue) noexcept; // move constructor
-	Queue(Queue const& other); // copy constructor 
-    Queue(int sizeofqueue);
-    ~Queue();
+
+	Queue(Queue&& other) noexcept;                  // move constructor
+	Queue(const Queue &other);                      // copy constructor 
+    Queue(int sizeofqueue);                         // User defined constructor 
+    ~Queue();                                       // user defined destructor
 };
  
 /*
@@ -64,32 +75,39 @@ Queue <T>::Queue(int sizeofqueue)
 
 
 /**
- * copy assignment 
+ * copy constructor 
  * copies the input and puts it into another instance of queue
  */
-template <typename T>
-Queue <T>::Queue(Queue const& other)
-    :m_capacity{other.m_capacity}
-    ,m_head{other.m_head}
-    ,m_size{other.m_size}
-    ,tail{other.tail}
-    ,m_arr{other.m_arr}	
-    ,mtx{other.mtx}
+template<typename T>
+Queue<T>::Queue(const Queue& other)                     // copy constructor 
+   : Queue(other.m_capacity)
 {
+	m_size = other.m_size; 
+	m_capacity = other.m_capacity; 
+	m_head = other.m_head;  
+	tail = other.tail; 
+	for (int i = 0; i <= m_capacity; ++i) 
+	{
+		m_arr[i] = other.m_arr[i];
+	}
+
 }
+
+
+
 
 /** 
  * Move constructor 
  * 
  */
 template <typename T>
-Queue <T>::Queue(Queue&& other, int sizeofqueue) noexcept // move constructor
+Queue<T>::Queue(Queue&& other) noexcept // move constructor
     :m_capacity{std::exchange(other.m_capacity, 0)}
     ,m_head{std::exchange(other.m_head, 0)}
     ,m_size{std::exchange(other.m_size, 0)}
     ,tail{std::exchange(other.tail, 0)}
-    ,m_arr{std::exchange(other.m_arr, new T[sizeofqueue])}	
-    ,mtx{std::exchange(other.mtx)}
+    ,m_arr{std::exchange(other.m_arr, new T[other.Count()])}	
+    ,mtx{}
 {
 }
 
