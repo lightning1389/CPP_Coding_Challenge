@@ -19,11 +19,11 @@ template<typename T>
 class Queue
 {
     std::condition_variable condition;
-    int m_capacity{0};  // Max m_capacity
+    int m_capacity{0};                                 // Max capacity
     T *m_arr;
     int m_head{0}; 
     int tail{0};
-    int m_size{0};                                     // actual m_size
+    int m_size{0};                                     // actual size
     std::mutex mtx;                                   // protects the Queue
 	const int Zero{0};
  
@@ -32,23 +32,21 @@ public:
     T Pop();
     const int Count();                               // Amount of elements stored now
     const int Size();                                // Max number of elements
-    void printfQueue();
-	
-    Queue& operator=(Queue& copy) {	        // copy assignment operator
-	    *this = copy;
+    void printfQueue(); 
+	Queue& operator=(Queue&& copy){	                 // move assignment operator
+		swap(*this, copy);
+   	 	return *this;
+	}; 
+	Queue(Queue&& other) noexcept;                  // move constructor
+	Queue(const Queue &other);                      // copy constructor 
+    Queue& operator=(Queue& copy) {	                // copy assignment operator
+        *this = copy;
         *this.m_size = copy.m_size; 
         *this.tail = copy.tail; 
         *this.m_head = copy.m_head; 
         *this.m_capacity = copy.m_capacity; 
-   	 	return *this;
+        return *this;
 	}; 
-	Queue& operator=(Queue&& copy){	        // move assignment operator
-		swap(*this, copy);
-   	 	return *this;
-	}; 
-
-	Queue(Queue&& other) noexcept;                  // move constructor
-	Queue(const Queue &other);                      // copy constructor 
     Queue(int sizeofqueue);                         // User defined constructor 
     ~Queue();                                       // user defined destructor
 };
