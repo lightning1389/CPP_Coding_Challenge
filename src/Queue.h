@@ -17,36 +17,44 @@ template<typename T>
 class Queue
 {
     std::condition_variable condition;
-    int m_capacity{0};                                 // Max capacity
+    int m_capacity{0};                                // Max capacity
     T *m_arr;
     int m_head{0}; 
     int tail{0};
-    int m_size{0};                                     // actual size
+    int m_size{0};                                    // actual size
     std::mutex mtx;                                   // protects the Queue
     const int Zero{0};
  
 public:
     void Push(T element);
     T Pop();
-    const int Count();                               // Amount of elements stored now
-    const int Size();                                // Max number of elements
+    const int Count();                                // Amount of elements stored now
+    const int Size();                                 // Max number of elements
     void printfQueue(); 
-    Queue& operator=(Queue&& copy){                     // move assignment operator
+    Queue& operator=(Queue&& copy){                   // move assignment operator
         swap(*this, copy);
+        for (int i = 0; i <= m_capacity; ++i)         // this only works for build in types
+        {
+            *this.m_arr[i] = copy.m_arr[i];
+        }
         return *this;
     }; 
-    Queue(Queue&& other) noexcept;                  // move constructor
-    Queue(const Queue &other);                      // copy constructor 
+    Queue(Queue&& other) noexcept;                     // move constructor
+    Queue(const Queue &other);                         // copy constructor 
     Queue& operator=(Queue& copy) {                    // copy assignment operator
         *this = copy;
         *this.m_size = copy.m_size; 
         *this.tail = copy.tail; 
         *this.m_head = copy.m_head; 
         *this.m_capacity = copy.m_capacity; 
+        for (int i = 0; i <= m_capacity; ++i) 
+        {
+            *this.m_arr[i] = copy.m_arr[i];
+        }
         return *this;
     }; 
-    Queue(int sizeofqueue);                         // User defined constructor 
-    ~Queue();                                       // user defined destructor
+    Queue(int sizeofqueue);                           // User defined constructor 
+    ~Queue();                                         // user defined destructor
 };
  
 /*
@@ -82,7 +90,7 @@ Queue<T>::Queue(const Queue& other)                     // copy constructor
     m_capacity = other.m_capacity; 
     m_head = other.m_head;  
     tail = other.tail; 
-    for (int i = 0; i <= m_capacity; ++i) 
+    for (int i = 0; i <= m_capacity; ++i)               // this only works for build in types
     {
         m_arr[i] = other.m_arr[i];
     }
