@@ -38,21 +38,21 @@ public:
     Queue(Queue&& other) noexcept;                     // move constructor
     Queue(const Queue &other);                         // copy constructor 
     Queue& operator=(Queue& copy) {                    // copy assignment operator
-		if (this != &copy) // not a self-assignment
-		{
-			if (m_capacity != copy.m_capacity) // resource cannot be reused
-			{
-				m_capacity = copy.m_capacity;
-			}
-			this->m_size = copy.m_size;
-			this->tail = copy.tail;
-			this->m_head = copy.m_head;
-			for (int i = 0; i <= m_capacity; ++i)               // this only works for build in types
-			{
-				m_arr[i] = copy.m_arr[i];
-			}
-		}
-		return *this;
+        if (this != &copy) // not a self-assignment
+        {
+            if (m_capacity != copy.m_capacity) // resource cannot be reused
+            {
+                m_capacity = copy.m_capacity;
+            }
+            this->m_size = copy.m_size;
+            this->tail = copy.tail;
+            this->m_head = copy.m_head;
+            for (int i = 0; i <= m_capacity; ++i)               // this only works for build in types
+            {
+                m_arr[i] = copy.m_arr[i];
+            }
+        }
+        return *this;
     }; 
     Queue(int sizeofqueue);                           // User defined constructor 
     ~Queue();                                         // user defined destructor
