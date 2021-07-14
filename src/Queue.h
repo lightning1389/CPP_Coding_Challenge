@@ -38,24 +38,24 @@ public:
     Queue(Queue&& other) noexcept;                     // move constructor
     Queue(const Queue &other);                         // copy constructor 
     Queue& operator=(Queue& copy) {                    // copy assignment operator
-        if (this != &copy) // not a self-assignment
+        if (this != &copy)                             // not a self-assignment
         {
-            if (m_capacity != copy.m_capacity) // resource cannot be reused
+            if (m_capacity != copy.m_capacity)         // resource cannot be reused
             {
                 m_capacity = copy.m_capacity;
             }
             this->m_size = copy.m_size;
             this->tail = copy.tail;
             this->m_head = copy.m_head;
-            for (int i = 0; i <= m_capacity; ++i)               // this only works for build in types
+            for (int i = 0; i <= m_capacity; ++i)       // this only works for build in types
             {
                 m_arr[i] = copy.m_arr[i];
             }
         }
         return *this;
     }; 
-    Queue(int sizeofqueue);                           // User defined constructor 
-    ~Queue();                                         // user defined destructor
+    Queue(int sizeofqueue);                             // User defined constructor 
+    ~Queue();                                            // user defined destructor
 };
  
 /*
@@ -104,7 +104,7 @@ Queue<T>::Queue(const Queue& other)                     // copy constructor
  * 
  */
 template <typename T>
-Queue<T>::Queue(Queue&& other) noexcept // move constructor
+Queue<T>::Queue(Queue&& other) noexcept
     :m_capacity{std::exchange(other.m_capacity, 0)}
     ,m_head{std::exchange(other.m_head, 0)}
     ,m_size{std::exchange(other.m_size, 0)}
@@ -126,11 +126,11 @@ void Queue<T>::Push(T element)
     while (m_size == m_capacity)
     {
         // FULL 
-        condition.wait(mlock);   // (4)     
+        condition.wait(mlock);    
     }
     tail = tail % m_capacity;
     m_arr[tail] = element;
-    tail += 1; // nothing on tail now (as tail+1)
+    tail += 1; 
     m_size += 1;
     sleepcp(20); 
     mlock.unlock();
