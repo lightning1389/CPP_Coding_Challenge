@@ -25,7 +25,8 @@ int main()
 
 
     std::cout << "Result of queue copy assignment " ; 
-    QueueInts queueAssigned = queue;         // copy assignment
+    QueueInts queueAssigned(8);
+    queueAssigned = queue;         // copy assignment
     queueAssigned.printfQueue(); 
     std::cout << std::endl << std::endl; 
 
