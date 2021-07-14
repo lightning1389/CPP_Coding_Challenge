@@ -33,10 +33,6 @@ public:
     void printfQueue(); 
     Queue& operator=(Queue&& copy){                   // move assignment operator
         swap(*this, copy);
-        for (int i = 0; i <= m_capacity; ++i)         // this only works for build in types
-        {
-            *this.m_arr[i] = copy.m_arr[i];
-        }
         return *this;
     }; 
     Queue(Queue&& other) noexcept;                     // move constructor
@@ -47,10 +43,6 @@ public:
         *this.tail = copy.tail; 
         *this.m_head = copy.m_head; 
         *this.m_capacity = copy.m_capacity; 
-        for (int i = 0; i <= m_capacity; ++i) 
-        {
-            *this.m_arr[i] = copy.m_arr[i];
-        }
         return *this;
     }; 
     Queue(int sizeofqueue);                           // User defined constructor 
@@ -121,15 +113,12 @@ template<typename T>
 void Queue<T>::Push(T element)
 {
     std::unique_lock<std::mutex> mlock(mtx);
- 
     // check if there is still enough space 
     while (m_size == m_capacity)
     {
         // FULL 
         condition.wait(mlock);   // (4)     
     }
- 
-
     tail = tail % m_capacity;
     m_arr[tail] = element;
     tail += 1; // nothing on tail now (as tail+1)
@@ -137,7 +126,6 @@ void Queue<T>::Push(T element)
     sleepcp(20); 
     mlock.unlock();
     condition.notify_one();
-    
 }
  
 /**
