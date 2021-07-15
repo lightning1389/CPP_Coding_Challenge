@@ -52,6 +52,7 @@ git clone --recursive git@github.com:google/googletest.git
 - Test cases can be more advanced
 - Initialization of datatypes, e.g. queue<int> 0 
 - The copy/move assignment and constructors only work for build in types. 
+- operator== would be useful for future implementation
 
 
 ## Performance
