@@ -37,12 +37,12 @@ public:
     }; 
     Queue(Queue&& other) noexcept;                     // move constructor
     Queue(const Queue &other);                         // copy constructor 
-    Queue& operator=(Queue& copy) {                    // copy assignment operator
+    Queue& operator=(Queue& copy) {                    // copy assignment operator- only works for same sized arrays
         if (this != &copy)                             // not a self-assignment
         {
             if (m_capacity != copy.m_capacity)         // resource cannot be reused
             {
-                return nullptr;           // 
+                return copy;                           // Should be checked when returned
             }
             this->m_size = copy.m_size;
             this->tail = copy.tail;
@@ -55,7 +55,7 @@ public:
         return *this;
     }; 
     Queue(int sizeofqueue);                             // User defined constructor 
-    ~Queue();                                            // user defined destructor
+    ~Queue();                                           // user defined destructor
 };
  
 /*
