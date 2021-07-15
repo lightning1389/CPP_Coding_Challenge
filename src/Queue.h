@@ -42,7 +42,7 @@ public:
         {
             if (m_capacity != copy.m_capacity)         // resource cannot be reused
             {
-                m_capacity = copy.m_capacity;
+                return nullptr;           // 
             }
             this->m_size = copy.m_size;
             this->tail = copy.tail;
