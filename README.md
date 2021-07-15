@@ -1,6 +1,6 @@
 
 # Description 
-Thank you very much for the interesting challenge - it was a pleasure and pain at the same time :)
+Thank you very much for the interesting challenge - it was a pleasure :)
 
 ![](queue.gif)
 
