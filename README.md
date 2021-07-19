@@ -1,6 +1,6 @@
 
 # Description 
-This is a multi-threaded queue implementation without using the Queue STD or any other related library. 
+This is a multi-threaded queue implementation without using the Queue standard library. 
 
 ![](queue.gif)
 
@@ -39,7 +39,7 @@ voilà, the executables are located in build/src and build/tst, respectively.
 
 ### Problem in Cmake build (OPTIONAL, Only in case of ERROR)
 
-The BOSCH proxy has a problem to recurisvely checkout the googletest lib, if you experience that problem most likely the "lib/googletest" folder is empty. 
+Some proxy's has a problem to recurisvely checkout the googletest lib, if you experience that problem most likely the "lib/googletest" folder is empty. 
 Please navigate to lib and checkout the googletest lib: 
 
 ```bash
@@ -50,6 +50,7 @@ git clone --recursive git@github.com:google/googletest.git
 
 ## Known Issues
 - Test cases can be more advanced
+- Implementation of a bool required for the case of lost-wakeup or sp
 - Initialization of datatypes, e.g. queue<int> 0 
 - The copy/move assignment and constructors only work for build in types. 
 - operator== would be useful for future implementation
