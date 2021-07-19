@@ -1,6 +1,6 @@
 
 # Description 
-Thank you very much for the interesting challenge - it was a pleasure :)
+This is a multi-threaded queue implementation without using the Queue STD or any other related library. 
 
 ![](queue.gif)
 
